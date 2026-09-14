@@ -1,6 +1,6 @@
 package com.Ejercicio.HireCore.Model;
 
-// ¡Estos son los imports que faltaban!
+import com.Ejercicio.HireCore.Model.Memento.CandidatoMemento; // <-- IMPORTANTE
 import com.Ejercicio.HireCore.Model.State.Aplicado;
 import com.Ejercicio.HireCore.Model.State.IEstadoCandidato;
 
@@ -12,16 +12,14 @@ public class Candidato {
     private String reclutadorEmail;
     private IEstadoCandidato estadoActual;
 
-    // Constructor
     public Candidato(String id, String nombre, String candidatoEmail, String reclutadorEmail) {
         this.id = id;
         this.nombre = nombre;
         this.candidatoEmail = candidatoEmail;
         this.reclutadorEmail = reclutadorEmail;
-        this.estadoActual = new Aplicado(); // Aquí ya encontrará la clase Aplicado
+        this.estadoActual = new Aplicado();
     }
 
-    // Getters
     public String getId() {
         return id;
     }
@@ -30,7 +28,7 @@ public class Candidato {
         return nombre;
     }
 
-    public String getCandidatoEmail() {
+    public String getEmail() {
         return candidatoEmail;
     }
 
@@ -42,7 +40,6 @@ public class Candidato {
         return estadoActual;
     }
 
-    // Setters
     public void setEstadoActual(IEstadoCandidato nuevoEstado) {
         this.estadoActual = nuevoEstado;
     }
@@ -51,7 +48,7 @@ public class Candidato {
         this.nombre = nombre;
     }
 
-    public void setCandidatoEmail(String email) {
+    public void setEmail(String email) {
         this.candidatoEmail = email;
     }
 
@@ -59,55 +56,11 @@ public class Candidato {
         this.reclutadorEmail = email;
     }
 
-    // ==========================================
-    // CÓDIGO PARA EL PATRÓN MEMENTO (Faltaba)
-    // ==========================================
-    public CandidatoMemento crearMemento() {
-        return new CandidatoMemento(this.estadoActual, this.id, this.nombre, this.candidatoEmail, this.reclutadorEmail);
+    public CandidatoMemento crearMemento(String usuario) {
+        return new CandidatoMemento(this.estadoActual, usuario, new java.util.Date());
     }
 
     public void restaurarMemento(CandidatoMemento memento) {
         this.estadoActual = memento.getEstado();
-        this.nombre = memento.getNombre();
-        this.candidatoEmail = memento.getEmail();
-        this.reclutadorEmail = memento.getReclutadorEmail();
-    }
-
-    // Clase interna para el Memento
-    public static class CandidatoMemento {
-
-        private IEstadoCandidato estado;
-        private String usuarioId;
-        private String nombre;
-        private String email;
-        private String reclutadorEmail;
-
-        public CandidatoMemento(IEstadoCandidato estado, String usuarioId, String nombre, String email, String reclutadorEmail) {
-            this.estado = estado;
-            this.usuarioId = usuarioId;
-            this.nombre = nombre;
-            this.email = email;
-            this.reclutadorEmail = reclutadorEmail;
-        }
-
-        public IEstadoCandidato getEstado() {
-            return estado;
-        }
-
-        public String getUsuarioId() {
-            return usuarioId;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getReclutadorEmail() {
-            return reclutadorEmail;
-        }
     }
 }

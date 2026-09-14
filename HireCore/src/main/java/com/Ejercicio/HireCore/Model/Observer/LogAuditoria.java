@@ -1,12 +1,13 @@
 package com.Ejercicio.HireCore.Model.Observer;
 
 import com.Ejercicio.HireCore.Model.Candidato;
+import com.Ejercicio.HireCore.Model.State.IEstadoCandidato;
 
-// Implementación 2: Log de Auditoría
-public class LogAuditoria implements CandidatoObserver {
+public class LogAuditoria implements Observador {
+
     @Override
-    public void actualizar(Candidato candidato, String nuevoEstado) {
-        System.out.println("📝 [LOG] " + new java.util.Date() + " - Candidato " +
-                candidato.getId() + " pasó a: " + nuevoEstado);
+    public void actualizar(Candidato candidato, IEstadoCandidato nuevoEstado) {
+        System.out.println("[LOG] " + new java.util.Date() + " - Candidato "
+                + candidato.getId() + " pasó a: " + nuevoEstado.getNombre());
     }
 }

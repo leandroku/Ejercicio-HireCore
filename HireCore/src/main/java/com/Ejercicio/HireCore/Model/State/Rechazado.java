@@ -3,14 +3,22 @@ package com.Ejercicio.HireCore.Model.State;
 import com.Ejercicio.HireCore.Model.Candidato;
 
 public class Rechazado implements IEstadoCandidato {
-    @Override
-    public String getNombre() { return "Rechazado"; }
+
+    private final String nombre = "Rechazado";
+    private final String siguienteEstadoNombre = null;
 
     @Override
-    public boolean puedeAvanzar(String nuevoEstado) { return false; }
+    public String getNombre() {
+        return nombre;
+    }
 
     @Override
-    public void avanzar(Candidato candidato, String nuevoEstado) {
-        System.out.println("⚠️ El candidato ha sido rechazado.");
+    public boolean puedeAvanzar(IEstadoCandidato nuevoEstado) {
+        return false;
+    }
+
+    @Override
+    public void avanzar(Candidato candidato, IEstadoCandidato nuevoEstado) {
+        System.out.println("El candidato ha sido rechazado.");
     }
 }

@@ -3,33 +3,32 @@ package com.Ejercicio.HireCore;
 import org.junit.jupiter.api.Test;
 
 import com.Ejercicio.HireCore.Model.Candidato;
+import com.Ejercicio.HireCore.Model.Observer.LogAuditoria;
+import com.Ejercicio.HireCore.Model.Observer.NotificadorCorreo;
+import com.Ejercicio.HireCore.Model.State.Entrevista;
+import com.Ejercicio.HireCore.Model.State.PruebaTecnica;
 import com.Ejercicio.HireCore.Service.GestorCandidato;
 
-// ¡OJO! Quitamos @SpringBootTest
 class HireCoreApplicationTests {
 
     @Test
     void probarTodo() {
         System.out.println("\n--- INICIANDO PRUEBA ---");
 
-        // 1. Crear el gestor
         GestorCandidato gestor = new GestorCandidato();
+        gestor.suscribir(new NotificadorCorreo());
+        gestor.suscribir(new LogAuditoria());
 
-        // 2. Activar notificaciones (Observer)
-        gestor.suscribir(new com.Ejercicio.HireCore.Model.Observer.NotificadorCorreo());
-        gestor.suscribir(new com.Ejercicio.HireCore.Model.Observer.LogAuditoria());
-
-        // 3. Crear un candidato
         Candidato candidato = new Candidato("C001", "Ana Gomez", "ana@test.com", "rrhh@test.com");
         System.out.println("Estado inicial: " + candidato.getEstadoActual().getNombre());
 
-        // 4. Avanzar estados (State)
-        gestor.cambiarEstado(candidato, "Entrevista");
-        gestor.cambiarEstado(candidato, "PruebaTecnica");
+        // Avanzar usando OBJETOS de estado, como pide el diagrama
+        gestor.cambiarEstado(candidato, new Entrevista());
+        gestor.cambiarEstado(candidato, new PruebaTecnica());
 
-        // 5. Retroceder (Memento)
-        System.out.println("\n--- Retrocediendo ---");
-        gestor.restaurarHistorial(candidato);
+        // Retroceder
+        System.out.println("\n--- Retrocediendo (deshacerCambio) ---");
+        gestor.deshacerCambio(candidato);
 
         System.out.println("\n--- FIN DE LA PRUEBA ---\n");
     }
